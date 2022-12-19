@@ -1,0 +1,25 @@
+package com.example.mapper;
+
+import com.example.pojo.Admin;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+
+import java.util.List;
+
+public class AdminMapperImpl2 extends SqlSessionDaoSupport implements AdminMapper{
+    @Override
+    public List<Admin> listAdmin() {
+        return getSqlSession().getMapper(AdminMapper.class).listAdmin();
+    }
+}
+<bean id="adminMapper2" class="com.example.mapper.AdminMapperImpl2">
+    <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+</bean>
+@Test
+public void MybatisSpring2(){
+    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    AdminMapper adminMapper = context.getBean("adminMapper2", AdminMapper.class);
+    List<Admin> adminList = adminMapper.listAdmin();
+    for (Admin admin : adminList) {
+        System.out.println(admin);
+    }
+}
